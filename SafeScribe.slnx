@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SafeScribe.Core/SafeScribe.Core.csproj" />
+  <Project Path="SafeScribe.UI/SafeScribe.UI.csproj" />
+</Solution>

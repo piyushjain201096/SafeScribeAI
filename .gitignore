@@ -77,3 +77,9 @@ experiments/
 target/
 
 frontend/src-tauri/binaries/
+
+# .NET Build Outputs
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
