@@ -10,7 +10,7 @@
     <a href="#-key-features"><img src="https://img.shields.io/badge/Framework-.NET%2010-512BD4?style=for-the-badge&logo=dotnet" alt=".NET 10"></a>
     <a href="#-architecture"><img src="https://img.shields.io/badge/UI_Engine-Avalonia_UI-purple?style=for-the-badge" alt="Avalonia UI"></a>
     <a href="#-supported-platforms"><img src="https://img.shields.io/badge/Platforms-Windows_%7C_macOS_%7C_Linux-blue?style=for-the-badge" alt="Platforms"></a>
-    <a href="#-resource-efficiency"><img src="https://img.shields.io/badge/Memory-~40MB_RAM-brightgreen?style=for-the-badge" alt="Memory"></a>
+    <a href="#-resource-efficiency"><img src="https://img.shields.io/badge/UI_Baseline-~40MB_RAM-brightgreen?style=for-the-badge" alt="UI Baseline Memory"></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License"></a>
   </p>
 
@@ -33,8 +33,15 @@ Cloud-based meeting bots (Otter, Fireflies, Zoom AI) introduce major privacy, co
 SafeScribe AI is built from the ground up for **complete data sovereignty**:
 - 🟢 **100% Offline / Air-Gapped**: Works seamlessly offline on planes, remote sites, or restricted enterprise networks.
 - 🟢 **Local Speech-To-Text**: Uses Whisper.cpp / `Whisper.net` with GPU acceleration (CUDA / Metal / Vulkan).
-- 🟢 **Local LLM Summaries**: Integrates with local Ollama models (`llama3`, `phi3`, `deepseek-r1`).
-- 🟢 **Ultra-Low ~40MB RAM Footprint**: Built on **.NET 10 Avalonia UI**, preserving 95%+ of system RAM for AI models (optimized for 8GB RAM laptops).
+- 🟢 **Ultra-Low ~40MB UI Footprint**: Built on **.NET 10 Avalonia UI**, preserving 95%+ of system RAM specifically for your local AI models (optimized for 8GB RAM laptops).
+
+#### 📊 Transparent Memory Allocation Breakdown
+| Component | Memory Allocation | Purpose |
+| :--- | :---: | :--- |
+| **SafeScribe Desktop App & UI** | **~40 MB – 60 MB** | Lightweight .NET 10 Avalonia process baseline |
+| **Local Whisper STT Model** | **~150 MB – 480 MB** | Local speech recognition model (`base` / `small`) |
+| **Local Ollama LLM Model** | **~1.8 GB – 4.5 GB** | Local LLM (`llama3.2:3b`, `phi3`, `llama3:8b`) |
+| **Total Active Memory** | **~2.2 GB – 4.9 GB** | Runs comfortably on **8GB RAM laptops** |
 
 ---
 
