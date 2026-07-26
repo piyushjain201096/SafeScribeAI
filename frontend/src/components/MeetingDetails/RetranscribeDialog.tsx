@@ -17,7 +17,8 @@ import {
   SelectValue,
 } from '../ui/select';
 import { invoke } from '@tauri-apps/api/core';
-import { listen, UnlistenFn } from '@tauri-apps/api/event';
+import { safeListen as listen } from '@/lib/isTauri';
+import type { UnlistenFn } from '@tauri-apps/api/event';
 import { toast } from 'sonner';
 import { useConfig } from '@/contexts/ConfigContext';
 import { LANGUAGES } from '@/constants/languages';

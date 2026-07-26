@@ -5,8 +5,8 @@
  * Pure 1-to-1 wrapper - no error handling changes, exact same behavior as direct invoke/listen calls.
  */
 
-import { invoke } from '@tauri-apps/api/core';
-import { listen, UnlistenFn } from '@tauri-apps/api/event';
+import { safeListen as listen } from '@/lib/isTauri';
+import type { UnlistenFn } from '@tauri-apps/api/event';
 
 export interface RecordingState {
   is_recording: boolean;
