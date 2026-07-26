@@ -166,9 +166,9 @@
         </Grid>
 
         <!-- Footer / Model Provider Settings Trigger -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="SpaceBetween" Margin="0,15,0,0">
-            <TextBlock Text="SafeScribe AI v1.0 (.NET 10 Core)" FontSize="11" Foreground="#64748B"/>
-            <Button Content="⚙ Model Provider Settings" Click="BtnSettings_Click" Background="Transparent" Foreground="#94A3B8" FontSize="11" BorderThickness="0" Cursor="Hand"/>
-        </StackPanel>
+        <Grid Grid.Row="3" Margin="0,15,0,0">
+            <TextBlock Text="SafeScribe AI v1.0 (.NET 10 Core)" FontSize="11" Foreground="#64748B" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button Content="⚙ Model Provider Settings" Click="BtnSettings_Click" Background="Transparent" Foreground="#94A3B8" FontSize="11" BorderThickness="0" Cursor="Hand" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        </Grid>
     </Grid>
 </Window>
