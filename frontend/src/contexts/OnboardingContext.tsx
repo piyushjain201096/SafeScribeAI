@@ -522,6 +522,13 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
       summaryModel,
     });
 
+    if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+      setParakeetDownloaded(true);
+      setSummaryModelDownloaded(true);
+      setIsBackgroundDownloading(false);
+      return;
+    }
+
     try {
       const shouldStartParakeet = includeParakeet && !parakeetDownloaded;
       const shouldStartSummary = includeSummary && !summaryModelDownloaded && !!summaryModel;
@@ -555,6 +562,9 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
 
   // Check if any models are currently downloading (for re-entry)
   const checkActiveDownloads = async () => {
+    if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+      return;
+    }
     try {
       const models = await invoke<any[]>('parakeet_get_available_models');
       const isDownloading = models.some(m => m.status && (typeof m.status === 'object' ? 'Downloading' in m.status : m.status === 'Downloading'));
@@ -563,9 +573,6 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
         console.log('[OnboardingContext] Detected active background downloads on mount');
         setIsBackgroundDownloading(true);
       }
-      
-      // Also check for Built-in AI downloads if possible (though less critical as Parakeet is the main blocker)
-      
     } catch (error) {
       console.warn('[OnboardingContext] Failed to check active downloads:', error);
     }

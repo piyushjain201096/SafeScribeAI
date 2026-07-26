@@ -169,6 +169,12 @@ export function DownloadProgressStep() {
     if (parakeetDownloadStartedRef.current) return;
     parakeetDownloadStartedRef.current = true;
 
+    if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+      setParakeetState({ status: 'completed', progress: 100, downloadedMb: 670, totalMb: 670, speedMbps: 0 });
+      setSummaryState({ status: 'completed', progress: 100, downloadedMb: 350, totalMb: 350, speedMbps: 0 });
+      return;
+    }
+
     if (!parakeetDownloaded) {
       setParakeetState((prev) => ({ ...prev, status: 'downloading' }));
     }
