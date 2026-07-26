@@ -59,16 +59,11 @@ namespace SafeScribe.UI
             _processMonitor.MeetingDetected += OnMeetingDetected;
             _processMonitor.StartMonitoring(intervalSeconds: 3);
 
-            // 3. Automated Ollama Health & Installation check
+            // 3. Automated Ollama Health check
             bool isOllamaOk = await _ollamaService.IsOllamaRunningAsync();
             if (!isOllamaOk)
             {
-                TxtSummary.Text = "[Ollama Service Check] Service not running. Attempting automated local setup...";
-                bool installed = await _ollamaService.TryAutoInstallOllamaAsync();
-                if (!installed)
-                {
-                    TxtSummary.Text = "[Ollama Setup Required] Ollama is not installed or service is offline. Please start Ollama or download it from https://ollama.com.";
-                }
+                TxtSummary.Text = "[Ollama Service Offline] Please start Ollama or download it from https://ollama.com to enable local AI summaries.";
             }
         }
 
