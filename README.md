@@ -57,6 +57,22 @@ SafeScribe AI is built from the ground up for **complete data sovereignty**:
 
 ---
 
+## 💰 Transparent Pricing & Licensing
+
+SafeScribe AI is built on a **"Pay Once, Own Forever"** model with zero monthly subscriptions. Because all AI processing happens 100% locally on your computer, there are zero ongoing cloud server fees.
+
+| Tier | Price | What's Included |
+| :--- | :---: | :--- |
+| **🆓 Free Trial** | **$0** | **5 Full, Unfiltered AI Meeting Summaries** out of the box to experience the full magic of local AI note-taking. |
+| **💎 Pro Lifetime** | **$39 – $49 (One-Time)** | **Unlimited AI Meeting Summaries forever**, zero subscriptions, 100% offline hardware-bound license activation, & lifetime updates. |
+| **📦 Industry Add-On Packs** | **$9 – $15 (One-Time)** | Specialized fine-tuned local model packs (*Sales & CRM*, *Legal Deposition*, *Medical SOAP Notes*) and advanced enterprise connectors. |
+
+#### 🛡️ Hardware-Bound Trial Security
+- The 5-summary free trial is bound to your machine's **SHA256 Hardware Fingerprint** (`SafeScribe.Core.Hardware.HardwareDetector`).
+- Paying customers receive a direct link to the **Pro Lifetime Installer** (`SafeScribe-Pro-Setup.exe`), which is **100% unlocked out of the box with zero limits compiled in**.
+
+---
+
 ## 📐 System Architecture
 
 ```
