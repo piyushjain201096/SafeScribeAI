@@ -5,36 +5,13 @@
  * Pure 1-to-1 wrapper - no error handling changes, exact same behavior as direct invoke calls.
  */
 
-import { invoke } from '@tauri-apps/api/core';
+import { safeInvoke } from '@/lib/isTauri';
 import { TranscriptModelProps } from '@/components/TranscriptSettings';
+import { ModelConfig } from '@/components/ModelSettingsModal';
+import { CustomOpenAIConfig } from '@/components/CustomOpenAISettings';
 
-export interface ModelConfig {
-  provider: 'ollama' | 'groq' | 'claude' | 'openrouter' | 'openai' | 'builtin-ai' | 'custom-openai';
-  model: string;
-  whisperModel: string;
-  /**
-   * @deprecated Use providerApiKeys from ConfigContext instead.
-   * This field may contain stale data when provider changes without saving.
-   */
-  apiKey?: string | null;
-  ollamaEndpoint?: string | null;
-  // Custom OpenAI fields (only populated when provider is 'custom-openai')
-  customOpenAIEndpoint?: string | null;
-  customOpenAIModel?: string | null;
-  customOpenAIApiKey?: string | null;
-  maxTokens?: number | null;
-  temperature?: number | null;
-  topP?: number | null;
-}
-
-export interface CustomOpenAIConfig {
-  endpoint: string;
-  apiKey: string | null;
-  model: string;
-  maxTokens: number | null;
-  temperature: number | null;
-  topP: number | null;
-}
+export type { ModelConfig };
+export type { CustomOpenAIConfig };
 
 export interface RecordingPreferences {
   preferred_mic_device: string | null;
@@ -51,7 +28,10 @@ export class ConfigService {
    * @returns Promise with { provider, model, apiKey }
    */
   async getTranscriptConfig(): Promise<TranscriptModelProps> {
-    return invoke<TranscriptModelProps>('api_get_transcript_config');
+    return safeInvoke<TranscriptModelProps>('api_get_transcript_config', undefined, {
+      provider: 'parakeet',
+      model: 'parakeet-tdt-0.6b-v3-int8',
+    });
   }
 
   /**
@@ -59,7 +39,11 @@ export class ConfigService {
    * @returns Promise with { provider, model, whisperModel }
    */
   async getModelConfig(): Promise<ModelConfig> {
-    return invoke<ModelConfig>('api_get_model_config');
+    return safeInvoke<ModelConfig>('api_get_model_config', undefined, {
+      provider: 'ollama',
+      model: 'llama3:8b',
+      whisperModel: 'large-v3',
+    });
   }
 
   /**
@@ -67,7 +51,10 @@ export class ConfigService {
    * @returns Promise with { preferred_mic_device, preferred_system_device }
    */
   async getRecordingPreferences(): Promise<RecordingPreferences> {
-    return invoke<RecordingPreferences>('get_recording_preferences');
+    return safeInvoke<RecordingPreferences>('get_recording_preferences', undefined, {
+      preferred_mic_device: null,
+      preferred_system_device: null,
+    });
   }
 
   /**
@@ -75,44 +62,25 @@ export class ConfigService {
    * @returns Promise with CustomOpenAIConfig or null if not configured
    */
   async getCustomOpenAIConfig(): Promise<CustomOpenAIConfig | null> {
-    return invoke<CustomOpenAIConfig | null>('api_get_custom_openai_config');
+    return safeInvoke<CustomOpenAIConfig | null>('api_get_custom_openai_config', undefined, null);
   }
 
   /**
    * Save custom OpenAI configuration
-   * @param config - CustomOpenAIConfig to save
-   * @returns Promise with result status
+   * @param config CustomOpenAIConfig object
    */
-  async saveCustomOpenAIConfig(config: CustomOpenAIConfig): Promise<{ status: string; message: string }> {
-    return invoke<{ status: string; message: string }>('api_save_custom_openai_config', {
-      endpoint: config.endpoint,
-      apiKey: config.apiKey,
-      model: config.model,
-      maxTokens: config.maxTokens,
-      temperature: config.temperature,
-      topP: config.topP,
-    });
+  async saveCustomOpenAIConfig(config: CustomOpenAIConfig): Promise<void> {
+    return safeInvoke<void>('api_save_custom_openai_config', { config });
   }
 
   /**
    * Test custom OpenAI connection
-   * @param endpoint - API endpoint URL
-   * @param apiKey - Optional API key
-   * @param model - Model name
-   * @returns Promise with test result
+   * @param config CustomOpenAIConfig object
+   * @returns Promise resolving if successful, rejecting with error message if failed
    */
-  async testCustomOpenAIConnection(
-    endpoint: string,
-    apiKey: string | null,
-    model: string
-  ): Promise<{ status: string; message: string; http_status?: number }> {
-    return invoke<{ status: string; message: string; http_status?: number }>('api_test_custom_openai_connection', {
-      endpoint,
-      apiKey,
-      model,
-    });
+  async testCustomOpenAIConnection(config: CustomOpenAIConfig): Promise<string> {
+    return safeInvoke<string>('api_test_custom_openai_connection', { config }, 'OK');
   }
 }
 
-// Export singleton instance
 export const configService = new ConfigService();

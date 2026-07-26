@@ -163,8 +163,11 @@ const Sidebar: React.FC = () => {
   // Listen for model config updates from other components
   useEffect(() => {
     const setupListener = async () => {
-      const { listen } = await import('@tauri-apps/api/event');
-      const unlisten = await listen<ModelConfig>('model-config-updated', (event) => {
+      if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+        return () => {};
+      }
+      const { safeListen } = await import('@/lib/isTauri');
+      const unlisten = await safeListen<ModelConfig>('model-config-updated', (event) => {
         console.log('Sidebar received model-config-updated event:', event.payload);
         setModelConfig(event.payload);
       });

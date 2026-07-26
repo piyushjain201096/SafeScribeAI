@@ -1,3 +1,4 @@
+import { invoke } from '@tauri-apps/api/core';
 import { listen, EventCallback, EventName, Options, UnlistenFn } from '@tauri-apps/api/event';
 
 /**
@@ -29,5 +30,26 @@ export async function safeListen<T>(
   } catch (err) {
     console.warn(`[safeListen] Skipped event listener for "${String(event)}":`, err);
     return () => {};
+  }
+}
+
+/**
+ * Safe wrapper for Tauri's invoke function.
+ * In a standard browser environment (where window.__TAURI_INTERNALS__ is undefined),
+ * this returns fallbackValue instead of throwing a TypeError.
+ */
+export async function safeInvoke<T>(
+  cmd: string,
+  args?: Record<string, unknown>,
+  fallbackValue?: T
+): Promise<T> {
+  if (!isTauri()) {
+    return fallbackValue as T;
+  }
+  try {
+    return await invoke<T>(cmd, args);
+  } catch (err) {
+    console.warn(`[safeInvoke] Command "${cmd}" skipped or failed:`, err);
+    return fallbackValue as T;
   }
 }

@@ -31,12 +31,18 @@ export default function AnalyticsProvider({ children }: AnalyticsProviderProps) 
     }
 
     const initAnalytics = async () => {
-      const store = await load('analytics.json', {
-        autoSave: false,
-        defaults: {
-          analyticsOptedIn: false
-        }
-      });
+      if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+        setIsAnalyticsOptedIn(false);
+        initialized.current = true;
+        return;
+      }
+      try {
+        const store = await load('analytics.json', {
+          autoSave: false,
+          defaults: {
+            analyticsOptedIn: false
+          }
+        });
 
       if (!(await store.has('analyticsOptedIn'))) {
         await store.set('analyticsOptedIn', false);
