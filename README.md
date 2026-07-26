@@ -11,7 +11,7 @@
     <a href="#-architecture"><img src="https://img.shields.io/badge/UI_Engine-Avalonia_UI-purple?style=for-the-badge" alt="Avalonia UI"></a>
     <a href="#-supported-platforms"><img src="https://img.shields.io/badge/Platforms-Windows_%7C_macOS_%7C_Linux-blue?style=for-the-badge" alt="Platforms"></a>
     <a href="#-resource-efficiency"><img src="https://img.shields.io/badge/UI_Baseline-~40MB_RAM-brightgreen?style=for-the-badge" alt="UI Baseline Memory"></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License"></a>
+    <a href="#-transparent-pricing--licensing"><img src="https://img.shields.io/badge/License-Commercial-blue?style=for-the-badge" alt="Commercial License"></a>
   </p>
 
   <p align="center">
@@ -59,7 +59,7 @@ SafeScribe AI is built from the ground up for **complete data sovereignty**:
 
 ## 💰 Transparent Pricing & Licensing
 
-SafeScribe AI is built on a **"Pay Once, Own Forever"** model with zero monthly subscriptions. Because all AI processing happens 100% locally on your computer, there are zero ongoing cloud server fees.
+SafeScribe AI is built on a **"Pay Once, Own Forever"** commercial model with zero monthly subscriptions. Because all AI processing happens 100% locally on your computer, there are zero ongoing cloud server fees.
 
 | Tier | Price | What's Included |
 | :--- | :---: | :--- |
@@ -67,9 +67,11 @@ SafeScribe AI is built on a **"Pay Once, Own Forever"** model with zero monthly 
 | **💎 Pro Lifetime** | **$39 – $49 (One-Time)** | **Unlimited AI Meeting Summaries forever**, zero subscriptions, 100% offline hardware-bound license activation, & lifetime updates. |
 | **📦 Industry Add-On Packs** | **$9 – $15 (One-Time)** | Specialized fine-tuned local model packs (*Sales & CRM*, *Legal Deposition*, *Medical SOAP Notes*) and advanced enterprise connectors. |
 
-#### 🛡️ Hardware-Bound Trial Security
-- The 5-summary free trial is bound to your machine's **SHA256 Hardware Fingerprint** (`SafeScribe.Core.Hardware.HardwareDetector`).
-- Paying customers receive a direct link to the **Pro Lifetime Installer** (`SafeScribe-Pro-Setup.exe`), which is **100% unlocked out of the box with zero limits compiled in**.
+#### 🛡️ Closed-Source Binary Security & Dual-Build Model
+- **Compiled Executable Distribution**: Distributed strictly as pre-compiled standalone installers (`.exe`, `.dmg`, `.deb`). Source code remains 100% private and protected.
+- **.NET 10 Native AOT Compilation (`PublishAot=true`)**: Compiled directly into native machine assembly code, stripping IL metadata to protect core IP.
+- **Hardware-Bound Trial Enforcement**: The 5-summary free trial is locked to your machine's **SHA256 Hardware Fingerprint** (`SafeScribe.Core.Hardware.HardwareDetector`).
+- **Dual-Binary Delivery**: Paying customers receive a direct email link to the **Pro Lifetime Installer** (`SafeScribe-Pro-Setup.exe`), which is **100% unlocked out of the box with zero limits compiled in**.
 
 ---
 
