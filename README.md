@@ -107,19 +107,15 @@ SafeScribe.slnx (.NET 10 Solution)
 
 ## 🚀 Quickstart Guide for End Users
 
-### 1. Download & Install
-Download the standalone pre-compiled installer for your OS:
-* 🪟 **Windows**: Download `SafeScribe-Setup.exe`
-* 🍎 **macOS**: Download `SafeScribe.dmg` (Metal GPU accelerated)
-* 🐧 **Linux**: Download `SafeScribe.AppImage` / `safescribe.deb`
+### 1. Download & Run Smart Installer
+Download the 1-click installer for your platform:
+* 🪟 **Windows**: `SafeScribe-Setup.exe`
+* 🍎 **macOS**: `SafeScribe.dmg` (Apple Silicon & Intel)
+* 🐧 **Linux**: `SafeScribe.AppImage` / `safescribe.deb`
 
-### 2. Ensure Local Ollama is Running
-Download and install [Ollama](https://ollama.com), then pull your local model of choice:
-```bash
-ollama run llama3.2:3b
-```
+> 🪄 **Zero Configuration**: The SafeScribe installer automatically detects if Ollama is installed. If missing, it silently sets up local Ollama & default lightweight AI model (`llama3.2:3b`) in the background!
 
-### 3. Launch & Enjoy 5 Free AI Summaries
+### 2. Launch & Enjoy 5 Free AI Summaries
 Launch SafeScribe AI. Enjoy **5 full AI meeting summaries** out of the box with zero cloud data leakage. Upgrade to **Pro Lifetime** anytime to unlock unlimited summaries!
 
 ---
