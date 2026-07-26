@@ -105,25 +105,38 @@ SafeScribe.slnx (.NET 10 Solution)
 
 ---
 
-## 🚀 Quickstart Guide
+## 🚀 Quickstart Guide for End Users
 
-### Prerequisites
-1. [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) installed.
-2. [Ollama](https://ollama.com) installed and running locally with your model of choice (e.g. `ollama run llama3`).
+### 1. Download & Install
+Download the standalone pre-compiled installer for your OS:
+* 🪟 **Windows**: Download `SafeScribe-Setup.exe`
+* 🍎 **macOS**: Download `SafeScribe.dmg` (Metal GPU accelerated)
+* 🐧 **Linux**: Download `SafeScribe.AppImage` / `safescribe.deb`
 
-### Running the App
-
-#### Method A: 1-Click Batch Script (Windows)
-Double-click `Run-SafeScribe-Avalonia.bat` in the project root.
-
-#### Method B: Terminal Command (Windows, macOS, Linux)
+### 2. Ensure Local Ollama is Running
+Download and install [Ollama](https://ollama.com), then pull your local model of choice:
 ```bash
-# Clone the repository
-git clone https://github.com/piyushjain201096/SafeScribeAI.git
-cd SafeScribeAI
+ollama run llama3.2:3b
+```
+
+### 3. Launch & Enjoy 5 Free AI Summaries
+Launch SafeScribe AI. Enjoy **5 full AI meeting summaries** out of the box with zero cloud data leakage. Upgrade to **Pro Lifetime** anytime to unlock unlimited summaries!
+
+---
+
+## 🛠️ Developer Setup (Building From Source)
+
+For internal developers building the solution locally:
+
+```bash
+# Build the entire solution (.NET 10)
+dotnet build SafeScribe.slnx
 
 # Run the cross-platform Avalonia UI desktop app
 dotnet run --project SafeScribe.UI.Avalonia/SafeScribe.UI.Avalonia.csproj
+
+# Windows 1-Click Batch Runner
+.\Run-SafeScribe-Avalonia.bat
 ```
 
 ---
