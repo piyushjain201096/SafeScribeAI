@@ -6,6 +6,8 @@ namespace SafeScribe.Core.Licensing
     {
         LicenseInfo GetCurrentLicense();
         bool IsFeatureUnlocked(ProFeature feature);
+        bool CanGenerateSummary();
+        Task ConsumeTrialSummaryCreditAsync();
         Task<LicenseInfo> ActivateLicenseKeyAsync(string licenseKey);
         void DeactivateLicense();
     }

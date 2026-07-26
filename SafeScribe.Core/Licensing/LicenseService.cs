@@ -40,6 +40,22 @@ namespace SafeScribe.Core.Licensing
             return false;
         }
 
+        public bool CanGenerateSummary()
+        {
+            if (_currentLicense.Tier == LicenseTier.Enterprise) return true;
+            if (_currentLicense.Tier == LicenseTier.ProLifetime && _currentLicense.IsValid) return true;
+            return _currentLicense.RemainingFreeSummaries > 0;
+        }
+
+        public async Task ConsumeTrialSummaryCreditAsync()
+        {
+            if (_currentLicense.Tier != LicenseTier.Enterprise && _currentLicense.Tier != LicenseTier.ProLifetime)
+            {
+                _currentLicense.FreeSummariesUsed++;
+                await SaveLicenseToStorageAsync(_currentLicense);
+            }
+        }
+
         public async Task<LicenseInfo> ActivateLicenseKeyAsync(string licenseKey)
         {
             if (string.IsNullOrWhiteSpace(licenseKey))

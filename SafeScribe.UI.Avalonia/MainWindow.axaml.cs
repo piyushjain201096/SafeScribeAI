@@ -68,7 +68,7 @@ namespace SafeScribe.UI.Avalonia
             }
             else
             {
-                TxtLicenseStatus.Text = "Free Community Edition";
+                TxtLicenseStatus.Text = $"Free Edition ({lic.RemainingFreeSummaries}/5 Summaries Left)";
                 BorderLicenseStatus.Background = Brush.Parse("#334155");
             }
         }
@@ -104,6 +104,13 @@ namespace SafeScribe.UI.Avalonia
                 BtnStopRecording.IsEnabled = false;
 
                 TxtTranscript.Text = "[Recording Stopped] Processing diarized transcript...\n";
+
+                if (!_licenseService.CanGenerateSummary())
+                {
+                    TxtSummary.Text = "🔒 Free Trial Limit Reached (5/5 Summaries Used)!\n\nYou have experienced 5 free AI meeting summaries. Click '🔑 Enter License Key' above to upgrade to Pro Lifetime for unlimited AI summaries.";
+                    return;
+                }
+
                 TxtSummary.Text = "⏳ Generating AI summary using local Ollama model (0 cloud data leakage)...";
 
                 _diarizer.AddSegment("We need to finalize the Q3 project deliverables.", TimeSpan.FromSeconds(5), "Alex (Engineering)");
@@ -114,6 +121,9 @@ namespace SafeScribe.UI.Avalonia
 
                 string modelToUse = _hardwareProfile.RecommendedOllamaModel;
                 _lastSummaryJson = await _ollamaService.GenerateMeetingSummaryAsync(modelToUse, fullTranscript);
+
+                await _licenseService.ConsumeTrialSummaryCreditAsync();
+                RefreshLicenseUI();
 
                 TxtSummary.Text = _lastSummaryJson;
 
