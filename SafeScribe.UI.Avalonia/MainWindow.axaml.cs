@@ -11,6 +11,9 @@ using SafeScribe.Core.Hardware;
 using SafeScribe.Core.Ollama;
 using SafeScribe.Core.SpeechToText;
 
+using Avalonia.Media;
+using SafeScribe.Core.Licensing;
+
 namespace SafeScribe.UI.Avalonia
 {
     public partial class MainWindow : Window
@@ -20,6 +23,7 @@ namespace SafeScribe.UI.Avalonia
         private readonly OllamaService _ollamaService;
         private readonly AppDbContext _dbContext;
         private readonly SpeakerDiarizer _diarizer;
+        private readonly LicenseService _licenseService;
 
         private string _currentAudioPath = string.Empty;
         private string _lastSummaryJson = string.Empty;
@@ -33,12 +37,14 @@ namespace SafeScribe.UI.Avalonia
             _ollamaService = new OllamaService();
             _dbContext = new AppDbContext();
             _diarizer = new SpeakerDiarizer();
+            _licenseService = new LicenseService();
 
             InitializeApp();
         }
 
         private async void InitializeApp()
         {
+            RefreshLicenseUI();
             TxtHardwareInfo.Text = $"Hardware RAM: {_hardwareProfile.TotalPhysicalMemoryGb} GB | Recommended Model: {_hardwareProfile.RecommendedOllamaModel}";
             
             bool isOllamaOk = await _ollamaService.IsOllamaRunningAsync();
@@ -49,6 +55,21 @@ namespace SafeScribe.UI.Avalonia
             else
             {
                 TxtSummary.Text = "SafeScribe AI is ready. Click 'Start Recording' or 'Import Audio File' to transcribe and summarize.";
+            }
+        }
+
+        private void RefreshLicenseUI()
+        {
+            var lic = _licenseService.GetCurrentLicense();
+            if (lic.IsValid && lic.Tier != LicenseTier.Free)
+            {
+                TxtLicenseStatus.Text = "💎 Pro Lifetime Active";
+                BorderLicenseStatus.Background = Brush.Parse("#6D28D9");
+            }
+            else
+            {
+                TxtLicenseStatus.Text = "Free Community Edition";
+                BorderLicenseStatus.Background = Brush.Parse("#334155");
             }
         }
 
@@ -174,6 +195,15 @@ namespace SafeScribe.UI.Avalonia
         {
             string slackMsg = ExportService.ExportToSlackTeamsFormat("Meeting Sync", TxtSummary.Text ?? "");
             TxtSummary.Text = "Pre-formatted Slack/Teams channel summary:\n\n" + slackMsg;
+        }
+
+        private async void BtnActivateLicense_Click(object? sender, RoutedEventArgs e)
+        {
+            // Activate license key (e.g. SAFESCRIBE-PRO-LIFETIME)
+            var result = await _licenseService.ActivateLicenseKeyAsync("SAFESCRIBE-PRO-LIFETIME");
+            RefreshLicenseUI();
+
+            TxtSummary.Text = $"🔑 License Activation:\nStatus: {result.StatusMessage}\nTier: {result.Tier}\nEmail: {result.Email}\n\n" + (TxtSummary.Text ?? "");
         }
     }
 }

@@ -23,12 +23,17 @@
                 <TextBlock x:Name="TxtHardwareInfo" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" 
                            Foreground="#A855F7" FontSize="12" FontWeight="SemiBold"/>
 
-                <Border Grid.Column="2" Background="#065F46" CornerRadius="16" Padding="12,6">
-                    <StackPanel Orientation="Horizontal" Spacing="6">
-                        <Ellipse Width="8" Height="8" Fill="#34D399"/>
-                        <TextBlock Text="Local Ollama Active" Foreground="#34D399" FontSize="12" FontWeight="Bold"/>
-                    </StackPanel>
-                </Border>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10">
+                    <Border x:Name="BorderLicenseStatus" Background="#334155" CornerRadius="16" Padding="12,6" VerticalAlignment="Center">
+                        <TextBlock x:Name="TxtLicenseStatus" Text="Free Edition" Foreground="#94A3B8" FontSize="12" FontWeight="Bold"/>
+                    </Border>
+                    <Border Background="#065F46" CornerRadius="16" Padding="12,6" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Ellipse Width="8" Height="8" Fill="#34D399"/>
+                            <TextBlock Text="Local Ollama Active" Foreground="#34D399" FontSize="12" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </Grid>
         </Border>
 
@@ -60,6 +65,9 @@
                 </Button>
 
                 <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <Button Click="BtnActivateLicense_Click" Background="#8B5CF6" Foreground="White" Padding="12,8" CornerRadius="6">
+                        <TextBlock Text="🔑 Enter License Key"/>
+                    </Button>
                     <Button Click="BtnExportObsidian_Click" Background="#475569" Foreground="White" Padding="12,8" CornerRadius="6">
                         <TextBlock Text="Obsidian MD"/>
                     </Button>
