@@ -113,13 +113,23 @@ namespace SafeScribe.Core.Licensing
                 {
                     string json = File.ReadAllText(_licenseFilePath);
                     var info = JsonSerializer.Deserialize<LicenseInfo>(json);
-                    if (info != null && info.IsValid) return info;
+                    if (info != null)
+                    {
+                        // Hardware fingerprint check
+                        string currentHw = SafeScribe.Core.Hardware.HardwareDetector.GetMachineFingerprint();
+                        if (string.IsNullOrEmpty(info.Email) || info.Email == currentHw)
+                        {
+                            info.Email = currentHw;
+                            return info;
+                        }
+                    }
                 }
             }
             catch { }
 
             return new LicenseInfo
             {
+                Email = SafeScribe.Core.Hardware.HardwareDetector.GetMachineFingerprint(),
                 Tier = LicenseTier.Free,
                 IsValid = false,
                 StatusMessage = "Free Community Edition"
@@ -130,6 +140,11 @@ namespace SafeScribe.Core.Licensing
         {
             try
             {
+                if (string.IsNullOrEmpty(info.Email))
+                {
+                    info.Email = SafeScribe.Core.Hardware.HardwareDetector.GetMachineFingerprint();
+                }
+
                 string json = JsonSerializer.Serialize(info, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(_licenseFilePath, json);
             }

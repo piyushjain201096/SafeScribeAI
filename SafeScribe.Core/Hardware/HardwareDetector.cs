@@ -75,5 +75,20 @@ namespace SafeScribe.Core.Hardware
 
             return profile;
         }
+
+        public static string GetMachineFingerprint()
+        {
+            try
+            {
+                string raw = $"{Environment.MachineName}-{Environment.ProcessorCount}-{Environment.OSVersion}-{Environment.UserDomainName}";
+                using var sha = System.Security.Cryptography.SHA256.Create();
+                byte[] bytes = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(raw));
+                return Convert.ToHexString(bytes);
+            }
+            catch
+            {
+                return "GENERIC-MACHINE-ID";
+            }
+        }
     }
 }
