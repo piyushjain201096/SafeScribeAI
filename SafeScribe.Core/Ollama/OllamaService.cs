@@ -7,6 +7,8 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
+using SafeScribe.Core.Abstractions;
+
 namespace SafeScribe.Core.Ollama
 {
     public class ModelProgressEventArgs : EventArgs
@@ -17,10 +19,15 @@ namespace SafeScribe.Core.Ollama
         public double Percentage => TotalBytes > 0 ? (double)CompletedBytes / TotalBytes * 100.0 : 0.0;
     }
 
-    public class OllamaService
+    public class OllamaService : ILlmService
     {
         private static readonly HttpClient _httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
         private readonly string _baseUrl;
+
+        public async Task<bool> IsEngineAvailableAsync()
+        {
+            return await IsOllamaRunningAsync();
+        }
 
         public event EventHandler<ModelProgressEventArgs>? ModelPullProgress;
 

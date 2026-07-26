@@ -4,6 +4,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 
+using SafeScribe.Core.Abstractions;
+
 namespace SafeScribe.Core.Data
 {
     public class MeetingRecord
@@ -17,7 +19,7 @@ namespace SafeScribe.Core.Data
         public string SummaryJson { get; set; } = string.Empty;
     }
 
-    public class AppDbContext
+    public class AppDbContext : IStorageService
     {
         private readonly string _dbPath;
 
@@ -107,6 +109,16 @@ namespace SafeScribe.Core.Data
             }
 
             return list;
+        }
+
+        public async Task DeleteMeetingAsync(string id)
+        {
+            using var conn = new SqliteConnection($"Data Source={_dbPath}");
+            await conn.OpenAsync();
+            string sql = "DELETE FROM Meetings WHERE Id = @Id;";
+            using var cmd = new SqliteCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@Id", id);
+            await cmd.ExecuteNonQueryAsync();
         }
     }
 }
