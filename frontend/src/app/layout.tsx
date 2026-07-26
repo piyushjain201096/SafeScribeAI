@@ -107,6 +107,9 @@ export default function RootLayout({
     }
   }, []);
   useEffect(() => {
+    if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+      return;
+    }
     // Listen for tray recording toggle request
     const unlisten = listen('request-recording-toggle', () => {
       console.log('[Layout] Received request-recording-toggle from tray');
@@ -123,7 +126,7 @@ export default function RootLayout({
     });
 
     return () => {
-      unlisten.then(fn => fn());
+      unlisten.then(fn => fn()).catch(() => {});
     };
   }, [showOnboarding]);
 

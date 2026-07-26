@@ -32,6 +32,9 @@ export function BluetoothPlaybackWarning({
 
     const checkAudioOutput = async () => {
       try {
+        if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+          return;
+        }
         const outputInfo = await invoke<AudioOutputInfo>('get_active_audio_output');
 
         if (outputInfo.is_bluetooth) {

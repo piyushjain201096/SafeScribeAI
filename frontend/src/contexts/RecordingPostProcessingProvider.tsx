@@ -31,6 +31,9 @@ export function RecordingPostProcessingProvider({ children }: { children: React.
     let unlistenFn: (() => void) | undefined;
 
     const setupListener = async () => {
+      if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+        return;
+      }
       try {
         // Listen for recording-stop-complete event from Rust
         unlistenFn = await listen<boolean>('recording-stop-complete', (event) => {

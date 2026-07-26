@@ -59,6 +59,11 @@ export class UpdateService {
     this.updateCheckInProgress = true;
     this.lastCheckTime = Date.now();
 
+    if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+      this.updateCheckInProgress = false;
+      return { available: false, currentVersion: '0.4.0' };
+    }
+
     try {
       const currentVersion = await getVersion();
       const update = await check();

@@ -87,6 +87,9 @@ export function TranscriptProvider({ children }: { children: ReactNode }) {
     let unlistenRecordingStopped: (() => void) | undefined;
 
     const setupRecordingListeners = async () => {
+      if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+        return;
+      }
       try {
         // Initialize IndexedDB
         await indexedDBService.init();

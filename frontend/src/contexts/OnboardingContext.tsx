@@ -442,6 +442,13 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
       return;
     }
 
+    if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('onboarding_status', JSON.stringify({ completed, currentStep }));
+      }
+      return;
+    }
+
     try {
       await invoke('save_onboarding_status_cmd', {
         status: {

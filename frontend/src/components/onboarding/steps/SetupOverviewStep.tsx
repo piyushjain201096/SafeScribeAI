@@ -17,10 +17,14 @@ export function SetupOverviewStep() {
   useEffect(() => {
     const checkPlatform = async () => {
       try {
-        const { platform } = await import('@tauri-apps/plugin-os');
-        setIsMac(platform() === 'macos');
+        if (typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window) {
+          const { platform } = await import('@tauri-apps/plugin-os');
+          setIsMac(platform() === 'macos');
+        } else {
+          setIsMac(typeof navigator !== 'undefined' && navigator.userAgent.includes('Mac'));
+        }
       } catch (e) {
-        setIsMac(navigator.userAgent.includes('Mac'));
+        setIsMac(typeof navigator !== 'undefined' && navigator.userAgent.includes('Mac'));
       }
     };
     checkPlatform();
@@ -46,7 +50,7 @@ export function SetupOverviewStep() {
   return (
     <OnboardingContainer
       title="Setup Overview"
-      description="Meetily requires that you download the Transcription & Summarization AI models for the software to work."
+      description="SafeScribe AI requires that you download the Transcription & Summarization AI models for the software to work."
       step={2}
       totalSteps={isMac ? 4 : 3}
     >

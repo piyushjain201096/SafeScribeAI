@@ -19,13 +19,14 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
     // Check if running on macOS
     const checkPlatform = async () => {
       try {
-        // Dynamic import to avoid SSR issues if any
-        const { platform } = await import('@tauri-apps/plugin-os');
-        setIsMac(platform() === 'macos');
+        if (typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window) {
+          const { platform } = await import('@tauri-apps/plugin-os');
+          setIsMac(platform() === 'macos');
+        } else {
+          setIsMac(typeof navigator !== 'undefined' && navigator.userAgent.includes('Mac'));
+        }
       } catch (e) {
-        console.error('Failed to detect platform:', e);
-        // Fallback
-        setIsMac(navigator.userAgent.includes('Mac'));
+        setIsMac(typeof navigator !== 'undefined' && navigator.userAgent.includes('Mac'));
       }
     };
     checkPlatform();

@@ -42,19 +42,26 @@ export class Analytics {
   }
 
   private static async doInit(): Promise<void> {
+    if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+      this.initialized = true;
+      return;
+    }
     try {
       await invoke('init_analytics');
       this.initialized = true;
       console.log('Analytics initialized successfully');
     } catch (error) {
-      console.error('Failed to initialize analytics:', error);
-      throw error;
+      console.warn('Failed to initialize analytics:', error);
     } finally {
       this.initializationPromise = null;
     }
   }
 
   static async disable(): Promise<void> {
+    if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window)) {
+      this.initialized = false;
+      return;
+    }
     try {
       await invoke('disable_analytics');
       this.initialized = false;
