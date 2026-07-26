@@ -59,6 +59,8 @@ if ($cmd) {
     $IsccExe = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 } elseif (Test-Path "C:\Program Files\Inno Setup 6\ISCC.exe") {
     $IsccExe = "C:\Program Files\Inno Setup 6\ISCC.exe"
+} elseif (Test-Path "C:\ProgramData\chocolatey\bin\ISCC.exe") {
+    $IsccExe = "C:\ProgramData\chocolatey\bin\ISCC.exe"
 }
 
 if ($IsccExe) {
@@ -68,7 +70,8 @@ if ($IsccExe) {
     if ($LASTEXITCODE -eq 0) {
         Write-Host "[OK] Windows Installer created successfully in 'dist/'!" -ForegroundColor Green
     } else {
-        Write-Warning "Inno Setup compiler encountered an error."
+        Write-Error "Inno Setup compiler failed!"
+        exit 1
     }
 } else {
     Write-Host "Inno Setup (ISCC.exe) not detected. (Install Inno Setup 6 to compile .exe installer)" -ForegroundColor Yellow
